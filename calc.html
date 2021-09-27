@@ -7,14 +7,18 @@
         <script yupe="text/javascript" src="calc.js" defer></script>
     </head>
     <body>
-        <div>
+        <div class = "main">
             <div class = "displayContainer">
-                <div class = "displayAnswer">
+                <div class = "display top">
                     sfg
                 </div>
-                <div class = "displayOperation">
+                <div class = "display bottom">
                     ggf
                 </div>
+            </div>
+            <div class = "deleteContainer">
+                <button id = "clear" class = "delete">clear</button>
+                <button id = "del" class = "delete">del</button>
             </div>
             <div class = "inputContainer">
                 <div class = "numbers">
@@ -29,17 +33,15 @@
                     <button id = "3">3</button>
                     <button id = "0">0</button>
                     <button id = ".">.</button>
-                    <button id = "=">=</button>
                 </div>
                 <div class = "operators">
-                    <button id = "del">del</button>
-                    <button id = "clear">clear</button>
-                    <button id = "+">+</button>
-                    <button id = "-">-</button>
-                    <button id = "x">x</button>
-                    <button id = "/">/</button>
-                    <button id = "^">^</button>
-                    <button id = "%">%</button>
+                    <button id = "add">+</button>
+                    <button id = "subtract">-</button>
+                    <button id = "multiply">x</button>
+                    <button id = "divide">/</button>
+                    <button id = "power">^</button>
+                    <button id = "remainder">%</button>
+                    <button id = "equals">=</button>
                 </div>
             </div>
         </div>

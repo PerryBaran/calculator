@@ -13,10 +13,18 @@ function multiply(a, b){
 function divide(a, b){
     if (b === 0){
         return 'nah';
-    }   else {
+    } else {
     return a / b;
     }
 };
+
+function power(a, b){
+    return a ** b;
+}
+
+function remainder(a, b){
+    return a % b;
+}
 
 function operate(operator, a, b) {
     if (operator === '+') {
@@ -26,6 +34,12 @@ function operate(operator, a, b) {
     } else if (operator === 'x') {
         return multiply(a, b);
     } else if (operator === '/') {
-        return divide(a, b)
+        return divide(a, b);
+    } else if (operator === '^') {
+        return power(a, b);
+    } else if (operator === '%') {
+        return remainder(a, b);
     }
 };
+
+console.log(remainder(20, 9))
