@@ -22,10 +22,6 @@ function power(a, b){
     return a ** b;
 }
 
-function remainder(a, b){
-    return a % b;
-}
-
 function operate(operator, a, b) {
     if (operator === '+') {
         return add(a, b);
@@ -37,9 +33,6 @@ function operate(operator, a, b) {
         return divide(a, b);
     } else if (operator === '^') {
         return power(a, b);
-    } else if (operator === '%') {
-        return remainder(a, b);
     }
 };
 
-console.log(remainder(20, 9))
