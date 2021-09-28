@@ -31,11 +31,26 @@ function power(a, b){
     return a ** b;
 };
 
+function equateDisplay() {
+    const operator = displayTop.innerHTML.slice(-1);
+    const a = Number(displayTop.innerHTML.slice(0, -2));
+    const b = Number(displayBottom.innerHTML);
+    displayTop.innerHTML = operate(operator, a, b);
+    displayBottom.innerHTML = '';
+};
+
 function clearDisplay(){
     displayTop.innerHTML = '';
     displayBottom.innerHTML = '';
-    operatorInput = undefined;
-}
+};
+
+function deleteLast(){
+    if (displayBottom.innerHTML === '' && isNaN(displayTop.innerHTML.slice(-1))){
+        displayTop.innerHTML = displayTop.innerHTML.slice(0, -2);
+    } else {
+        displayBottom.innerHTML = displayBottom.innerHTML.slice(0, -1);
+    }
+};
 
 function operate(operator, a, b) {
     if (operator === '+') {
@@ -48,6 +63,8 @@ function operate(operator, a, b) {
         return divide(a, b);
     } else if (operator === '^') {
         return power(a, b);
+    } else if (operator === '') {
+        return displayBottom.innerHTML
     }
 };
 
@@ -63,15 +80,33 @@ numberInput.forEach(button => {
 
 operatorInput.forEach(button => {
     button.addEventListener('click', () => {
-        displayTop.innerHTML = displayBottom.innerHTML + ' ' + button.innerHTML.toString();
-        displayBottom.innerHTML = '';
+        if ((displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '^')
+            && (displayBottom.innerHTML === '')
+            && (button.innerHTML === '-')) {
+            displayBottom.innerHTML = button.innerHTML;
+        } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
+            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
+            && (displayBottom.innerHTML !== '' || displayBottom.innerHTML !== '-')) {
+            equateDisplay()
+            displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;
+        } else if (displayTop.innerHTML !== ''){
+            displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;  
+        } else {
+            displayTop.innerHTML = displayBottom.innerHTML + ' ' + button.innerHTML;
+            displayBottom.innerHTML = '';
+        }
     });
 });
 
+
 equals.addEventListener('click', () => {
-    const operator = displayTop.innerHTML.slice(-1)
-    const a = displayTop.innerHTML.slice(0, -2);
-    const b = displayBottom.innerHTML;
-    displayTop.innerHTML = operate(operator, a, b);
-    displayBottom.innerHTML = '';
+    equateDisplay();
+});
+
+clear.addEventListener('click', () => {
+    clearDisplay();
+});
+
+del.addEventListener('click', () => {
+    deleteLast();
 });

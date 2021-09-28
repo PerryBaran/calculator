@@ -46,7 +46,7 @@ button {
     background-color: black;
     font-size: 2rem;
     color: white;
-    border: 0.5px solid grey;
+    border: 0.5px solid rgb(125, 55, 138);
     outline: none;
     cursor: pointer;
 }
