@@ -84,15 +84,15 @@ operatorInput.forEach(button => {
             && (displayBottom.innerHTML === ''|| displayBottom.innerHTML === '-')
             && (button.innerHTML === '-')) {
             displayBottom.innerHTML = button.innerHTML;
-        } else if ((displayTop.innerHTML === ' +' || displayTop.innerHTML === ' -' 
-            || displayTop.innerHTML === ' x' || displayTop.innerHTML === ' /' || displayTop.innerHTML === ' ^' )
-            && (displayBottom.innerHTML === '')) {
-                displayTop.innerHTML = ' ' + button.innerHTML;
+        } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
+            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
+            && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')) {
+                displayTop.innerHTML = displayTop.innerHTML.slice(0, -2) + ' ' + button.innerHTML;
         } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
             || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
             && (displayBottom.innerHTML !== '' || displayBottom.innerHTML !== '-')) {
-            equateDisplay()
-            displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;
+                equateDisplay()
+                displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;
         } else if (displayTop.innerHTML !== ''){
             displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;  
         } else {
