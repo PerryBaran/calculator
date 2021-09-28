@@ -81,9 +81,13 @@ numberInput.forEach(button => {
 operatorInput.forEach(button => {
     button.addEventListener('click', () => {
         if ((displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '^')
-            && (displayBottom.innerHTML === '')
+            && (displayBottom.innerHTML === ''|| displayBottom.innerHTML === '-')
             && (button.innerHTML === '-')) {
             displayBottom.innerHTML = button.innerHTML;
+        } else if ((displayTop.innerHTML === ' +' || displayTop.innerHTML === ' -' 
+            || displayTop.innerHTML === ' x' || displayTop.innerHTML === ' /' || displayTop.innerHTML === ' ^' )
+            && (displayBottom.innerHTML === '')) {
+                displayTop.innerHTML = ' ' + button.innerHTML;
         } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
             || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
             && (displayBottom.innerHTML !== '' || displayBottom.innerHTML !== '-')) {
