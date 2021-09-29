@@ -21,7 +21,7 @@ function multiply(a, b){
 
 function divide(a, b){
     if (b === 0){
-        return 'nah';
+        return "Don't even try it";
     } else {
         return a / b;
     }
@@ -37,6 +37,9 @@ function equateDisplay() {
     const b = Number(displayBottom.innerHTML);
     displayTop.innerHTML = operate(operator, a, b);
     displayBottom.innerHTML = '';
+    if (displayTop.innerHTML == 'Infinity') {
+        displayTop.innerHTML = 'Too big for me'
+    }
 };
 
 function clearDisplay(){
@@ -51,6 +54,14 @@ function deleteLast(){
         displayBottom.innerHTML = displayBottom.innerHTML.slice(0, -1);
     }
 };
+
+function notANumber () {
+    if (displayTop.innerHTML == 'Too big for me' || displayTop.innerHTML == "Don't even try it"
+        || displayTop.innerHTML == 'NaN' || displayTop.innerHTML == 'undefined') {
+            displayTop.innerHTML = '';
+            displayBottom.innerHTML = '';
+        }
+}
 
 function operate(operator, a, b) {
     if (operator === '+') {
@@ -74,16 +85,23 @@ function append(number){
 
 numberInput.forEach(button => {
     button.addEventListener('click', () => {
+        notANumber();
+        if (displayBottom.innerHTML.includes('.') && button.innerHTML === '.'){
+        } else if (displayBottom.innerHTML.length < 13) {
         append(button.innerHTML);
+        }
     });
 });
 
 operatorInput.forEach(button => {
     button.addEventListener('click', () => {
+        notANumber();
         if ((displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '^')
             && (displayBottom.innerHTML === ''|| displayBottom.innerHTML === '-')
             && (button.innerHTML === '-')) {
             displayBottom.innerHTML = button.innerHTML;
+        } else if ((displayTop.innerHTML === '')
+            && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')){
         } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
             || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
             && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')) {
@@ -101,7 +119,6 @@ operatorInput.forEach(button => {
         }
     });
 });
-
 
 equals.addEventListener('click', () => {
     equateDisplay();
