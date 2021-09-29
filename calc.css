@@ -35,11 +35,13 @@ body {
 .top {
     color: rgb(255, 255, 255);
     font-size: 2rem;
+    height: 50%;
 }
 
 .bottom {
     color: white;
     font-size: 4rem;
+    height: 50%;
 }
 
 button {

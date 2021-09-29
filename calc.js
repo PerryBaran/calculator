@@ -35,8 +35,10 @@ function equateDisplay() {
     const operator = displayTop.innerHTML.slice(-1);
     const a = Number(displayTop.innerHTML.slice(0, -2));
     const b = Number(displayBottom.innerHTML);
-    displayTop.innerHTML = operate(operator, a, b);
-    displayBottom.innerHTML = '';
+    if (displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
+    || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
+        displayTop.innerHTML = operate(operator, a, b);
+        displayBottom.innerHTML = '';
     if (displayTop.innerHTML == 'Infinity') {
         displayTop.innerHTML = 'Too big for me'
     }
@@ -58,8 +60,7 @@ function deleteLast(){
 function notANumber () {
     if (displayTop.innerHTML == 'Too big for me' || displayTop.innerHTML == "Don't even try it"
         || displayTop.innerHTML == 'NaN' || displayTop.innerHTML == 'undefined') {
-            displayTop.innerHTML = '';
-            displayBottom.innerHTML = '';
+            clearDisplay();
         }
 }
 
@@ -96,10 +97,11 @@ numberInput.forEach(button => {
 operatorInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
-        if ((displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '^')
+        if ((displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '^'
+            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/')
             && (displayBottom.innerHTML === ''|| displayBottom.innerHTML === '-')
             && (button.innerHTML === '-')) {
-            displayBottom.innerHTML = button.innerHTML;
+                displayBottom.innerHTML = button.innerHTML;
         } else if ((displayTop.innerHTML === '')
             && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')){
         } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
@@ -112,15 +114,16 @@ operatorInput.forEach(button => {
                 equateDisplay()
                 displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;
         } else if (displayTop.innerHTML !== ''){
-            displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;  
+                displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;  
         } else {
-            displayTop.innerHTML = displayBottom.innerHTML + ' ' + button.innerHTML;
-            displayBottom.innerHTML = '';
+                displayTop.innerHTML = displayBottom.innerHTML + ' ' + button.innerHTML;
+                displayBottom.innerHTML = '';
         }
     });
 });
 
 equals.addEventListener('click', () => {
+    notANumber();
     equateDisplay();
 });
 
