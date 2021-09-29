@@ -36,7 +36,7 @@ function equateDisplay() {
     const a = Number(displayTop.innerHTML.slice(0, -2));
     const b = Number(displayBottom.innerHTML);
     if (displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
-    || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
+    || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷' || displayTop.innerHTML.slice(-1) === '^' )
         displayTop.innerHTML = operate(operator, a, b);
         displayBottom.innerHTML = '';
     if (displayTop.innerHTML == 'Infinity') {
@@ -71,7 +71,7 @@ function operate(operator, a, b) {
         return subtract(a, b);
     } else if (operator === 'x') {
         return multiply(a, b);
-    } else if (operator === '/') {
+    } else if (operator === '÷') {
         return divide(a, b);
     } else if (operator === '^') {
         return power(a, b);
@@ -98,18 +98,18 @@ operatorInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
         if ((displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '^'
-            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/')
+            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷')
             && (displayBottom.innerHTML === ''|| displayBottom.innerHTML === '-')
             && (button.innerHTML === '-')) {
                 displayBottom.innerHTML = button.innerHTML;
         } else if ((displayTop.innerHTML === '')
             && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')){
         } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
-            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
+            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷' || displayTop.innerHTML.slice(-1) === '^' )
             && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')) {
                 displayTop.innerHTML = displayTop.innerHTML.slice(0, -2) + ' ' + button.innerHTML;
         } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
-            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '/' || displayTop.innerHTML.slice(-1) === '^' )
+            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷' || displayTop.innerHTML.slice(-1) === '^' )
             && (displayBottom.innerHTML !== '' || displayBottom.innerHTML !== '-')) {
                 equateDisplay()
                 displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;
