@@ -11,17 +11,12 @@ body {
     background: linear-gradient(to right, rgb(253, 114, 246), rgb(29, 1, 61));
 }
 
-p {
-    text-align: center;
-}
-
 .mainContainer {
     display: grid;
     justify-content: center;
     align-content: center;
     min-height: 90vh;
-    max-height: 90vh;
-    grid-template-columns: repeat(4, 125px);
+    grid-template-columns: repeat(5, 100px);
     grid-template-rows: minmax(100px, auto) repeat(5, 100px);
 }
 
@@ -62,11 +57,28 @@ button:hover {
     opacity: 0.7;
 }
 
-.misc {
+.NaN {
     background-color:white;
     color: black;
 }
 
-.equals {
+.span2 {
     grid-column: span 2;
+}
+
+.empty {
+    border: 0.5px solid rgb(125, 55, 138);
+}
+
+.link {
+    text-align: center;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
 }

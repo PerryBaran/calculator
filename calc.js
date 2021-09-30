@@ -3,9 +3,13 @@ const operatorInput = document.querySelectorAll('.operators');
 const equals = document.querySelector('.equals');
 const clear = document.querySelector('.clear');
 const del = document.querySelector('.del');
+const changeSign = document.querySelector('.changeSign');
 const displayTop = document.querySelector('.top');
 const displayBottom = document.querySelector('.bottom');
 
+var currentNumber = '';
+var savedNumber = '';
+var currentOperator = '';
 
 function add(a, b) {
     return a + b;
@@ -31,37 +35,8 @@ function power(a, b){
     return a ** b;
 };
 
-function equateDisplay() {
-    const operator = displayTop.innerHTML.slice(-1);
-    const a = Number(displayTop.innerHTML.slice(0, -2));
-    const b = Number(displayBottom.innerHTML);
-    if (displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
-    || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷' || displayTop.innerHTML.slice(-1) === '^' )
-        displayTop.innerHTML = operate(operator, a, b);
-        displayBottom.innerHTML = '';
-    if (displayTop.innerHTML.includes('Infinity')) {
-        displayTop.innerHTML = 'Too big for me'
-    }
-};
-
-function clearDisplay(){
-    displayTop.innerHTML = '';
-    displayBottom.innerHTML = '';
-};
-
-function deleteLast(){
-    if (displayBottom.innerHTML === '' && isNaN(displayTop.innerHTML.slice(-1))){
-        displayTop.innerHTML = displayTop.innerHTML.slice(0, -2);
-    } else {
-        displayBottom.innerHTML = displayBottom.innerHTML.slice(0, -1);
-    }
-};
-
-function notANumber () {
-    if (displayTop.innerHTML == 'Too big for me' || displayTop.innerHTML == "Don't even try it"
-        || displayTop.innerHTML == 'NaN' || displayTop.innerHTML == 'undefined') {
-            clearDisplay();
-        }
+function root(a, b){
+    return b ** (1/a);
 }
 
 function operate(operator, a, b) {
@@ -75,20 +50,74 @@ function operate(operator, a, b) {
         return divide(a, b);
     } else if (operator === '^') {
         return power(a, b);
+    } else if (operator === '√') {
+        return root(a, b);
     } else if (operator === '') {
-        return displayBottom.innerHTML
+        return currentNumber;
     }
 };
 
-function append(number){
-    displayBottom.innerHTML = displayBottom.innerHTML.toString() + number.toString();
+function equateDisplay() {
+    if (currentOperator === '') {
+        savedNumber = currentNumber.toString();
+        currentNumber = '';
+    } else {
+        savedNumber = operate(currentOperator, Number(savedNumber), Number(currentNumber));
+        currentNumber = '';
+    }
+    if (savedNumber.toString().includes('Infinity')) {
+        savedNumber = 'Too big for me to calculate'
+    }
+    currentOperator = '';
+    updateDisplay();
 };
+
+function clearDisplay(){
+    currentNumber = '';
+    savedNumber = '';
+    currentOperator = '';
+    updateDisplay();
+};
+
+function deleteLast(){
+    if (currentNumber === '') {
+        currentOperator = '';
+    } else {
+        currentNumber = currentNumber.slice(0, -1);
+    }
+    updateDisplay();
+};
+
+function change(){
+    if (currentNumber.charAt(0) !== '-') {
+        currentNumber = '-' + currentNumber.toString();
+    } else {
+        currentNumber = currentNumber.substring(1);
+    }
+    updateDisplay(); 
+}
+
+function notANumber () {
+    if (isNaN(savedNumber)) {
+        clearDisplay();
+    }
+}
+
+function append(number){
+    currentNumber = currentNumber.toString() + number.toString();
+    updateDisplay();
+};
+
+function updateDisplay(){
+    displayBottom.innerHTML = currentNumber;
+    displayTop.innerHTML = savedNumber + ' ' + currentOperator;
+}
 
 numberInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
-        if (displayBottom.innerHTML.includes('.') && button.innerHTML === '.'){
-        } else if (displayBottom.innerHTML.length < 13) {
+        if (currentNumber.includes('.') && button.innerHTML === '.'){
+        } else if (currentNumber.length < 13) {
         append(button.innerHTML);
         }
     });
@@ -97,28 +126,21 @@ numberInput.forEach(button => {
 operatorInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
-        if ((displayTop.innerHTML === '' || displayTop.innerHTML.slice(-1) === '^'
-            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷')
-            && (displayBottom.innerHTML === ''|| displayBottom.innerHTML === '-')
-            && (button.innerHTML === '-')) {
-                displayBottom.innerHTML = button.innerHTML;
-        } else if ((displayTop.innerHTML === '')
-            && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')){
-        } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
-            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷' || displayTop.innerHTML.slice(-1) === '^' )
-            && (displayBottom.innerHTML === '' || displayBottom.innerHTML === '-')) {
-                displayTop.innerHTML = displayTop.innerHTML.slice(0, -2) + ' ' + button.innerHTML;
-        } else if ((displayTop.innerHTML.slice(-1) === '+' || displayTop.innerHTML.slice(-1) === '-' 
-            || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷' || displayTop.innerHTML.slice(-1) === '^' )
-            && (displayBottom.innerHTML !== '' || displayBottom.innerHTML !== '-')) {
-                equateDisplay()
-                displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;
-        } else if (displayTop.innerHTML !== ''){
-                displayTop.innerHTML = displayTop.innerHTML + ' ' + button.innerHTML;  
-        } else {
-                displayTop.innerHTML = displayBottom.innerHTML + ' ' + button.innerHTML;
-                displayBottom.innerHTML = '';
+        if (currentNumber === '' && savedNumber === '' && button.innerHTML === '√') {
+            savedNumber = '2';
+        } else if (currentNumber === '' && savedNumber === '') {
+            savedNumber = '0';
+        } else if (currentNumber === '') {
+        } else if (currentOperator !== '') {
+            equateDisplay();
         }
+        else {
+            savedNumber = currentNumber.toString();
+        }
+        currentNumber = '';
+        currentOperator = button.innerHTML;
+
+        updateDisplay();
     });
 });
 
@@ -133,4 +155,8 @@ clear.addEventListener('click', () => {
 
 del.addEventListener('click', () => {
     deleteLast();
+});
+
+changeSign.addEventListener('click', () => {
+    change();
 });
