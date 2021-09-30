@@ -66,8 +66,16 @@ button:hover {
     grid-column: span 2;
 }
 
+.equals {
+    font-size: 4rem;
+}
+
 .empty {
     border: 0.5px solid rgb(125, 55, 138);
+}
+
+.delArt {
+    height: 4rem;
 }
 
 .link {
