@@ -4,6 +4,7 @@ const equals = document.querySelector('.equals');
 const clear = document.querySelector('.clear');
 const del = document.querySelector('.del');
 const changeSign = document.querySelector('.changeSign');
+const swap = document.querySelector('.swap')
 const displayTop = document.querySelector('.top');
 const displayBottom = document.querySelector('.bottom');
 
@@ -58,6 +59,7 @@ function operate(operator, a, b) {
 };
 
 function equateDisplay() {
+    minusOne();
     if (currentOperator === '') {
         savedNumber = currentNumber.toString();
         currentNumber = '';
@@ -97,6 +99,17 @@ function change(){
     updateDisplay(); 
 }
 
+function swapNumbers(){
+    var holdNumber = currentNumber;
+    if (savedNumber.length <= 13) {
+        currentNumber = savedNumber;
+    } else {
+        currentNumber = Number(savedNumber).toExponential(7);
+    }
+    savedNumber = holdNumber;
+    updateDisplay();
+}
+
 function notANumber () {
     if (isNaN(savedNumber)) {
         clearDisplay();
@@ -113,6 +126,12 @@ function updateDisplay(){
     displayTop.innerHTML = savedNumber + ' ' + currentOperator;
 }
 
+function minusOne(){
+    if (currentNumber === '-') {
+        currentNumber = '-1'
+    }
+}
+
 numberInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
@@ -126,6 +145,8 @@ numberInput.forEach(button => {
 operatorInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
+        minusOne();
+        
         if (currentNumber === '' && savedNumber === '' && button.innerHTML === '√') {
             savedNumber = '2';
         } else if (currentNumber === '' && savedNumber === '') {
@@ -160,3 +181,7 @@ del.addEventListener('click', () => {
 changeSign.addEventListener('click', () => {
     change();
 });
+
+swap.addEventListener('click', () => {
+    swapNumbers();
+})

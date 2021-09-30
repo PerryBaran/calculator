@@ -70,12 +70,9 @@ button:hover {
     font-size: 4rem;
 }
 
-.empty {
-    border: 0.5px solid rgb(125, 55, 138);
-}
-
-.delArt {
+.art {
     height: 4rem;
+    vertical-align: middle;
 }
 
 .link {
