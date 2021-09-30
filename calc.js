@@ -26,7 +26,7 @@ function multiply(a, b){
 
 function divide(a, b){
     if (b === 0){
-        return "Don't even try it";
+        return "nope";
     } else {
         return a / b;
     }
@@ -37,7 +37,11 @@ function power(a, b){
 };
 
 function root(a, b){
-    return b ** (1/a);
+    if (b < 0) {
+        return "nope";
+    } else {
+        return b ** (1/a);
+    }
 };
 
 function operate(operator, a, b) {
@@ -68,7 +72,9 @@ function equateDisplay() {
         currentNumber = '';
     }
     if (savedNumber.toString().includes('Infinity')) {
-        savedNumber = 'Too big for me to calculate'
+        savedNumber = "too big"
+    } else if (savedNumber === '-0') {
+        savedNumber = '0'
     }
     currentOperator = '';
     updateDisplay();
@@ -86,7 +92,7 @@ function chooseOperator(operator) {
         } else if (operator === '÷') {
             savedNumber = '1';
         } else {
-        savedNumber = '0';
+            savedNumber = '0';
         }
     } else if (currentNumber === '') {
     } else if (currentOperator !== '') {
@@ -152,9 +158,15 @@ function updateDisplay(){
     displayTop.innerHTML = savedNumber + ' ' + currentOperator;
 };
 
-function minusOne(){
+function minusOne(operator){
     if (currentNumber === '-') {
-        currentNumber = '-1'
+        if (operator === '√') {
+            currentNumber = '-2';
+        } else if (operator === '+' || operator === '-') {
+            currentNumber = '0';
+        } else {
+            currentNumber = '-1';
+        }
     }
 };
 
@@ -171,7 +183,7 @@ numberInput.forEach(button => {
 operatorInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
-        minusOne();
+        minusOne(button.innerHTML);
         chooseOperator(button.innerHTML);
         updateDisplay();
     });
