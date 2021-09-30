@@ -74,6 +74,27 @@ function equateDisplay() {
     updateDisplay();
 };
 
+function append(number){
+    currentNumber = currentNumber.toString() + number.toString();
+    updateDisplay();
+};
+
+function chooseOperator(operator) {
+    if (currentNumber === '' && savedNumber === '' && operator === '√') {
+        savedNumber = '2';
+    } else if (currentNumber === '' && savedNumber === '') {
+        savedNumber = '0';
+    } else if (currentNumber === '') {
+    } else if (currentOperator !== '') {
+        equateDisplay();
+    }
+    else {
+        savedNumber = currentNumber.toString();
+    }
+    currentNumber = '';
+    currentOperator = operator;
+};
+
 function clearDisplay(){
     currentNumber = '';
     savedNumber = '';
@@ -101,7 +122,7 @@ function change(){
 
 function swapNumbers(){
     var holdNumber = currentNumber;
-    if (savedNumber.length <= 13) {
+    if (savedNumber.toString().length <= 13) {
         currentNumber = savedNumber;
     } else {
         currentNumber = Number(savedNumber).toExponential(7);
@@ -115,11 +136,6 @@ function notANumber () {
         clearDisplay();
     }
 }
-
-function append(number){
-    currentNumber = currentNumber.toString() + number.toString();
-    updateDisplay();
-};
 
 function updateDisplay(){
     displayBottom.innerHTML = currentNumber;
@@ -146,21 +162,7 @@ operatorInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
         minusOne();
-        
-        if (currentNumber === '' && savedNumber === '' && button.innerHTML === '√') {
-            savedNumber = '2';
-        } else if (currentNumber === '' && savedNumber === '') {
-            savedNumber = '0';
-        } else if (currentNumber === '') {
-        } else if (currentOperator !== '') {
-            equateDisplay();
-        }
-        else {
-            savedNumber = currentNumber.toString();
-        }
-        currentNumber = '';
-        currentOperator = button.innerHTML;
-
+        chooseOperator(button.innerHTML);
         updateDisplay();
     });
 });
@@ -175,13 +177,23 @@ clear.addEventListener('click', () => {
 });
 
 del.addEventListener('click', () => {
+    notANumber();
     deleteLast();
 });
 
 changeSign.addEventListener('click', () => {
+    notANumber();
     change();
 });
 
 swap.addEventListener('click', () => {
+    notANumber();
     swapNumbers();
+})
+
+window.addEventListener('keydown', function(e) {
+    const input = document.querySelector(`button[data-key="${e.keyCode}"`);
+    if(!input) return;
+    input.click();
+    console.log(input)
 })
