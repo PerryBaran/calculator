@@ -124,8 +124,10 @@ function swapNumbers(){
     var holdNumber = currentNumber;
     if (savedNumber.toString().length <= 13) {
         currentNumber = savedNumber;
-    } else {
+    } else if (Number(savedNumber) > 999999999999) {
         currentNumber = Number(savedNumber).toExponential(7);
+    } else {
+        currentNumber = savedNumber.toString().slice(0, 13);
     }
     savedNumber = holdNumber;
     updateDisplay();
@@ -151,8 +153,8 @@ function minusOne(){
 numberInput.forEach(button => {
     button.addEventListener('click', () => {
         notANumber();
-        if (currentNumber.includes('.') && button.innerHTML === '.'){
-        } else if (currentNumber.length < 13) {
+        if (currentNumber.toString().includes('.') && button.innerHTML === '.'){
+        } else if (currentNumber.toString().length < 13) {
         append(button.innerHTML);
         }
     });
