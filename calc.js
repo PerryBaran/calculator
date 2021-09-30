@@ -38,7 +38,7 @@ function power(a, b){
 
 function root(a, b){
     return b ** (1/a);
-}
+};
 
 function operate(operator, a, b) {
     if (operator === '+') {
@@ -80,10 +80,14 @@ function append(number){
 };
 
 function chooseOperator(operator) {
-    if (currentNumber === '' && savedNumber === '' && operator === '√') {
-        savedNumber = '2';
-    } else if (currentNumber === '' && savedNumber === '') {
+    if (currentNumber === '' && savedNumber === '') {
+        if (operator === '√' || operator === '^' || operator === 'x') {
+            savedNumber = '2';
+        } else if (operator === '÷') {
+            savedNumber = '1';
+        } else {
         savedNumber = '0';
+        }
     } else if (currentNumber === '') {
     } else if (currentOperator !== '') {
         equateDisplay();
@@ -118,7 +122,7 @@ function change(){
         currentNumber = currentNumber.substring(1);
     }
     updateDisplay(); 
-}
+};
 
 function swapNumbers(){
     var holdNumber = currentNumber;
@@ -135,24 +139,24 @@ function swapNumbers(){
         displayTop.innerHTML = savedNumber + ' ' + currentOperator;
     }
     
-}
+};
 
 function notANumber () {
     if (isNaN(savedNumber)) {
         clearDisplay();
     }
-}
+};
 
 function updateDisplay(){
     displayBottom.innerHTML = currentNumber;
     displayTop.innerHTML = savedNumber + ' ' + currentOperator;
-}
+};
 
 function minusOne(){
     if (currentNumber === '-') {
         currentNumber = '-1'
     }
-}
+};
 
 numberInput.forEach(button => {
     button.addEventListener('click', () => {
@@ -202,4 +206,4 @@ window.addEventListener('keydown', function(e) {
     if(!input) return;
     input.click();
     console.log(input)
-})
+});
