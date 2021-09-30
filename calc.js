@@ -122,15 +122,19 @@ function change(){
 
 function swapNumbers(){
     var holdNumber = currentNumber;
-    if (savedNumber.toString().length <= 13) {
-        currentNumber = savedNumber;
-    } else if (Number(savedNumber) > 999999999999) {
-        currentNumber = Number(savedNumber).toExponential(7);
-    } else {
-        currentNumber = savedNumber.toString().slice(0, 13);
-    }
+    currentNumber = savedNumber;
     savedNumber = holdNumber;
-    updateDisplay();
+
+    if (currentNumber.toString().length <= 13) {
+        updateDisplay();
+    } else if (Number(currentNumber) > 999999999999) {
+        displayBottom.innerHTML = Number(currentNumber).toExponential(7);
+        displayTop.innerHTML = savedNumber + ' ' + currentOperator;
+    } else {
+        displayBottom.innerHTML = currentNumber.toString().slice(0, 13);
+        displayTop.innerHTML = savedNumber + ' ' + currentOperator;
+    }
+    
 }
 
 function notANumber () {
