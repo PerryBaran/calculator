@@ -39,7 +39,7 @@ function equateDisplay() {
     || displayTop.innerHTML.slice(-1) === 'x' || displayTop.innerHTML.slice(-1) === '÷' || displayTop.innerHTML.slice(-1) === '^' )
         displayTop.innerHTML = operate(operator, a, b);
         displayBottom.innerHTML = '';
-    if (displayTop.innerHTML == 'Infinity') {
+    if (displayTop.innerHTML.includes('Infinity')) {
         displayTop.innerHTML = 'Too big for me'
     }
 };
