@@ -34,7 +34,11 @@ function divide(a, b){
 };
 
 function power(a, b){
-    return a ** b;
+    if (a < 0 && b > 0 && b < 1) {
+        return "nope";
+    } else {
+        return a ** b;
+    }
 };
 
 function root(a, b){
@@ -67,16 +71,15 @@ function equateDisplay() {
     minusOne();
     if (currentOperator === '') {
         savedNumber = currentNumber.toString();
-        currentNumber = '';
     } else {
         savedNumber = operate(currentOperator, Number(savedNumber), Number(currentNumber));
-        currentNumber = '';
     }
     if (savedNumber.toString().includes('Infinity')) {
         savedNumber = "too big"
     } else if (savedNumber === '-0') {
         savedNumber = '0'
     }
+    currentNumber = '';
     currentOperator = '';
     updateDisplay();
 };
@@ -172,13 +175,13 @@ numberInput.forEach(button => {
         notANumber();
         if (currentNumber.toString().includes('.') && button.innerHTML === '.'){
         } else if (currentNumber.toString().length < 13) {
-        append(button.innerHTML);
+            append(button.innerHTML);
         }
     });
 });
 
 operatorInput.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
         notANumber();
         minusOne(button.innerHTML);
         chooseOperator(button.innerHTML);
@@ -212,6 +215,7 @@ swap.addEventListener('click', () => {
 
 window.addEventListener('keydown', function(e) {
     const input = document.querySelector(`button[data-key="${e.keyCode}"`);
+    e.preventDefault();
     if(!input) return;
     input.click();
 });
