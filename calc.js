@@ -217,6 +217,7 @@ window.addEventListener('keydown', function(e) {
     const input = document.querySelector(`button[data-key="${e.keyCode}"`);
     e.preventDefault();
     if(!input) return;
+    e.preventDefault();
     input.click();
 });
 
