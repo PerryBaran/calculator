@@ -7,6 +7,7 @@ const changeSign = document.querySelector('.changeSign');
 const swap = document.querySelector('.swap')
 const displayTop = document.querySelector('.top');
 const displayBottom = document.querySelector('.bottom');
+const container = document.querySelector('.mainContainer');
 
 var currentNumber = '';
 var savedNumber = '';
@@ -87,9 +88,9 @@ function append(number){
 
 function chooseOperator(operator) {
     if (currentNumber === '' && savedNumber === '') {
-        if (operator === '√' || operator === '^' || operator === 'x') {
+        if (operator === '√' || operator === '^') {
             savedNumber = '2';
-        } else if (operator === '÷') {
+        } else if (operator === '÷' || operator === 'x') {
             savedNumber = '1';
         } else {
             savedNumber = '0';
@@ -116,7 +117,7 @@ function deleteLast(){
     if (currentNumber === '') {
         currentOperator = '';
     } else {
-        currentNumber = currentNumber.slice(0, -1);
+        currentNumber = currentNumber.toString().slice(0, -1);
     }
     updateDisplay();
 };
@@ -134,17 +135,7 @@ function swapNumbers(){
     var holdNumber = currentNumber;
     currentNumber = savedNumber;
     savedNumber = holdNumber;
-
-    if (currentNumber.toString().length <= 13) {
-        updateDisplay();
-    } else if (Number(currentNumber) > 999999999999) {
-        displayBottom.innerHTML = Number(currentNumber).toExponential(7);
-        displayTop.innerHTML = savedNumber + ' ' + currentOperator;
-    } else {
-        displayBottom.innerHTML = currentNumber.toString().slice(0, 13);
-        displayTop.innerHTML = savedNumber + ' ' + currentOperator;
-    }
-    
+    updateDisplay();
 };
 
 function notANumber () {
@@ -154,7 +145,13 @@ function notANumber () {
 };
 
 function updateDisplay(){
-    displayBottom.innerHTML = currentNumber;
+    if (currentNumber.toString().length <= 13) {
+        displayBottom.innerHTML = currentNumber;
+    } else if (Number(currentNumber) > 999999999999) {
+        displayBottom.innerHTML = Number(currentNumber).toExponential(7);    
+    } else {
+        displayBottom.innerHTML = currentNumber.toString().slice(0, 13);
+    }
     displayTop.innerHTML = savedNumber + ' ' + currentOperator;
 };
 
@@ -217,5 +214,32 @@ window.addEventListener('keydown', function(e) {
     const input = document.querySelector(`button[data-key="${e.keyCode}"`);
     if(!input) return;
     input.click();
-    console.log(input)
+});
+
+container.addEventListener('mouseover', function(e) {
+    const inputID = e.target.id;
+    const shortcut = document.querySelector('.shortcut');
+    if (!inputID) {
+        shortcut.innerHTML = '';
+    } else if (inputID === 'CLEAR') {
+        shortcut.innerHTML = 'SPACE';
+    } else if (inputID === 'SWAP') {
+        shortcut.innerHTML = 'TAB';
+    } else if (inputID === 'DEL') {
+        shortcut.innerHTML = 'BACKSPACE';
+    } else if (inputID === '=') {
+        shortcut.innerHTML = 'ENTER';
+    } else if (inputID === '±') {
+        shortcut.innerHTML = 'ALT';
+    } else if (inputID === '^') {
+        shortcut.innerHTML = 'SHIFT';
+    } else if (inputID === '√') {
+        shortcut.innerHTML = 'CTRL';
+    } else if (inputID === 'x') {
+        shortcut.innerHTML = 'NUMPAD *'
+    } else if (inputID === '÷') {
+        shortcut.innerHTML = 'NUMPAD /'
+    } else {
+        shortcut.innerHTML = 'NUMPAD ' + inputID;
+    }
 });
